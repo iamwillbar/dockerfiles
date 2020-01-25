@@ -2,7 +2,6 @@ name: squid
 
 on:
   push:
-    paths: squid
 
 jobs:
   build:
