@@ -7,13 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_ID: docker.pkg.github.com/iamwillbar/dockerfiles/squid:$(date +%s)
+      IMAGE_ID: docker.pkg.github.com/iamwillbar/dockerfiles/squid
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run:  docker build . --file Dockerfile -t $IMAGE_ID
+      run:  docker build . --file Dockerfile -t $IMAGE_ID:$(date +%s)
       working-directory: ./squid
     - name: Login to GPR
       run: docker login -u iamwillbar -p $GITHUB_TOKEN docker.pkg.github.com
     - name: Push to GPR
-      run: docker push $IMAGE_ID
+      run: docker push $IMAGE_ID:$(date +%s)
