@@ -15,7 +15,7 @@ jobs:
       working-directory: ./squid
     - name: Login to GPR
       run: docker login -u iamwillbar -p $GITHUB_TOKEN docker.pkg.github.com
-      with:
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Push to GPR
       run: docker push $IMAGE_ID:$(date +%s)
