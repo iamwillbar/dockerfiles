@@ -17,11 +17,11 @@ jobs:
       run: echo ::set-output name=tag::$(date +%s)
       id: tag
     - name: Build the Docker image
-      run:  docker build . --file Dockerfile -t $IMAGE_ID:${{ steps.tag.outputs.tag }}
+      run:  docker build . --file Dockerfile -t $IMAGE_ID:${{ steps.tag.outputs.tag }} -t $IMAGE_ID:latest
       working-directory: ./squid
     - name: Login to GPR
       run: docker login -u iamwillbar -p $GITHUB_TOKEN docker.pkg.github.com
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Push to GPR
-      run: docker push $IMAGE_ID:${{ steps.tag.outputs.tag }}
+      run: docker push $IMAGE_ID:${{ steps.tag.outputs.tag }} && docker push $IMAGE_ID:latest
