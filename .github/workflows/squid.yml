@@ -2,6 +2,9 @@ name: squid
 
 on:
   push:
+    paths:
+      - 'squid/**'
+      - '.github/workflows/squid.yml'
 
 jobs:
   build:
