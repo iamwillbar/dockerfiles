@@ -13,12 +13,15 @@ jobs:
       IMAGE_ID: docker.pkg.github.com/iamwillbar/dockerfiles/squid
     steps:
     - uses: actions/checkout@v1
+    - name: Generate a tag
+      run: echo ::set-output name=tag::$(date +%s)
+      id: tag
     - name: Build the Docker image
-      run:  docker build . --file Dockerfile -t $IMAGE_ID:$(date +%s)
+      run:  docker build . --file Dockerfile -t $IMAGE_ID:${{ steps.tag.outputs.tag }}
       working-directory: ./squid
     - name: Login to GPR
       run: docker login -u iamwillbar -p $GITHUB_TOKEN docker.pkg.github.com
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Push to GPR
-      run: docker push $IMAGE_ID:$(date +%s)
+      run: docker push $IMAGE_ID:${{ steps.tag.outputs.tag }}
